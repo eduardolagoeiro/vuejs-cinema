@@ -5,7 +5,20 @@ import Vue from 'vue';
 new Vue({
   el: '#app',
   data: {
-    msg: 'Hello World!'
+    genre: [],
+    time: []
+  },
+  methods: {
+    checkFilterHandler(category, title, checked){
+      if(checked){
+        this[category].push(title);
+      }else{
+        let index = this[category].indexOf(title);
+        if(index >= 0){
+          this[category].splice(index, 1);
+        }
+      }
+    }
   },
   components:{
     'movie-list': {
@@ -43,13 +56,14 @@ new Vue({
             <check-filter
               v-for="genre in genres"
               v-on:check-filter="checkFilterHandler"
-              v-bind:name="genre"/>
+              v-bind:title="genre"
+              category="genre"/>
           </div>
         </div>
       `,
       methods: {
-        checkFilterHandler(){
-          console.log('msg');
+        checkFilterHandler({category, title, checked}){
+          this.$emit('check-filter', category, title, checked);
         }
       },
       components: {
@@ -59,14 +73,14 @@ new Vue({
               checked: false,
             }
           },
-          props:['name'],
+          props:['title','category'],
           template:`
             <div class="check-filter"
               v-on:click="checkFilter"
               v-bind:class="{ active: checked }">
               <span class="checkbox"></span>
               <span class="check-filter-title">
-                {{name}}
+                {{title}}
               </span>
             </div>
           `,
@@ -74,7 +88,8 @@ new Vue({
             checkFilter(){
               this.checked = !this.checked;
               this.$emit('check-filter', {
-                name: this.name,
+                category: this.category,
+                title: this.title,
                 checked: this.checked
               });
             }
