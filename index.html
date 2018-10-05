@@ -21,7 +21,9 @@
     <div id="overview">
         <div class="main">
             <movie-list v-bind:genre="genre" v-bind:time="time"></movie-list>
-            <movie-filter v-on:check-filter="checkFilterHandler"></movie-filter>
+            <movie-filter
+                v-on:check-filter="checkFilterHandler"
+            />
         </div>
     </div>
 </div>
