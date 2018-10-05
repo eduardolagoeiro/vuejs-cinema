@@ -9,29 +9,14 @@
 <script>
   import genres from '../util/genres';
   import times from '../util/times';
+  import _ from 'lodash';
 
   export default {
     props:['genre','time'],
     data(){
       return {
-        movies: [
-          {
-            title: 'Pulp Fiction',
-            genre: genres.CRIME,
-            time: times.BEFORE_6PM,
-          },
-          {
-            title: 'Home Alone',
-            genre: genres.COMEDY,
-            time: times.AFTER_6PM,
-          },
-          {
-            title: 'Austin Powers',
-            genre: genres.COMEDY,
-            time: times.BEFORE_6PM,
+        movies: [],
           }
-        ],
-      }
     },
     methods: {
       moviePassesGenreFilter(movie){
@@ -39,6 +24,27 @@
       },
       moviePassesTimeFilter(movie){
         return this.time.length == 0 || this.time.find(time => movie.time === time);
+      },
+      getMovies(){
+        fetch('api')
+          .then(response => response.json())
+          .then(json=>{
+            const result = [];
+            json.map(el => {
+              let movie = el.movie;
+              movie.id = el.id;
+              movie.genres = movie.Genre.split(',').map(string=>string.trim());
+              movie.sessions = el.sessions.map(session=>session.time);
+              movie.title = movie.Title;
+              movie = _.pick(movie, 'title', 'sessions','genres');
+              result.push(movie);
+            });
+            return result;
+          })
+          .then(result=>{
+            this.movies=result;
+          })
+          .catch(err=>console.log(err));
       }
     },
     computed: {
@@ -47,7 +53,10 @@
           .filter(this.moviePassesGenreFilter)
           .filter(this.moviePassesTimeFilter);
       }
-    }
+    },
+    mounted() {
+      this.getMovies();
+    },
   }
 </script>
 
