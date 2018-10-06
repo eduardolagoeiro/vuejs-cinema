@@ -10,9 +10,8 @@
 
 <script>
   import genres from '../util/genres';
-  import times from '../util/times';
+  import { times, isBefore6p, isAfter6p } from '../util/times';
   import MovieItem from './MovieItem.vue';
-  import _ from 'lodash';
 
   export default {
     props:['genre','time'],
@@ -30,7 +29,8 @@
           !this.genre.map(el=>movie.genres.includes(el)).includes(false);
       },
       moviePassesTimeFilter(movie){
-        return this.time.length == 0;
+        return this.time.length == 0 ||
+          !this.time.map(el=>movie.times.includes(el)).includes(false);
       },
       getMovies(){
         fetch('api')
@@ -38,13 +38,19 @@
           .then(json=>{
             const result = [];
             json.map(el => {
-              let movie = el.movie;
+              let movie = {};
               movie.id = el.id;
-              movie.genres = movie.Genre.split(',').map(string=>string.trim());
+              movie.genres = el.movie.Genre.split(',').map(string=>string.trim());
               movie.sessions = el.sessions.map(session=>session.time);
-              movie.title = movie.Title;
-              movie.poster = movie.Poster;
-              movie = _.pick(movie, 'title', 'sessions','genres', 'poster');
+              movie.title = el.movie.Title;
+              movie.poster = el.movie.Poster;
+              movie.times = [];
+              if(movie.sessions.find(isBefore6p)){
+                movie.times.push(times.BEFORE_6PM);
+              }
+              if(movie.sessions.find(isAfter6p)){
+                movie.times.push(times.AFTER_6PM);
+              }
               result.push(movie);
             });
             return result;

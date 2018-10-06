@@ -22,7 +22,7 @@
 
 <script>
   import genres from '../util/genres';
-  import times from '../util/times';
+  import { times } from '../util/times';
 
   import CheckFilter from './CheckFilter.vue';
   export default {
