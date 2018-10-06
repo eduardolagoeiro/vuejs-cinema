@@ -3,7 +3,8 @@
     <MovieItem
       v-for="movie in filteredMovies"
       class="movie" 
-      v-bind:movie="movie"/>
+      v-bind:movie="movie"
+      v-bind:key="movie.id"/>
   </div>
 </template>
 

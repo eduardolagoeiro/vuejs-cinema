@@ -7,13 +7,15 @@
         v-for="genre in genres"
         v-on:check-filter="checkFilterHandler"
         v-bind:title="genre"
-        category="genre"/>
+        category="genre"
+        v-bind:key = "genre"/>
         <h3>Time</h3>
       <check-filter
         v-for="time in times"
         v-on:check-filter="checkFilterHandler"
         v-bind:title="time"
-        category="time"/>
+        category="time"
+        v-bind:key="time"/>
     </div>
   </div>
 </template>
