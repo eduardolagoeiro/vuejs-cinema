@@ -18,7 +18,7 @@
     data(){
       return {
         movies: [],
-          }
+      }
     },
     components: {
       MovieItem,
@@ -44,6 +44,7 @@
               movie.sessions = el.sessions.map(session=>session.time);
               movie.title = el.movie.Title;
               movie.poster = el.movie.Poster;
+              movie.rated = el.movie.Rated;
               movie.times = [];
               if(movie.sessions.find(isBefore6p)){
                 movie.times.push(times.BEFORE_6PM);

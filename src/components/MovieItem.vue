@@ -4,7 +4,11 @@
       <img v-bind:src="movie.poster"/>
     </div>
     <div class="movie-col-right">
-      {{movie.title}}
+      <div class="movie-title">
+        <h2>{{movie.title}}</h2>
+        <span class="movie-rating">{{movie.rated}}</span>
+      </div>
+      
     </div>
   </div>
 </template>
