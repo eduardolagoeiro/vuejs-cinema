@@ -16,6 +16,7 @@
           <div
             class="session-time">
             {{session | sessionTimeFormatter}}
+            {{(new Date(session)).getDate()}}
           </div>
         </div>
       </div>
@@ -30,9 +31,10 @@
         sessions: []
       }
     },
-    props: ['movie'],
+    props: ['movie', 'day'],
     mounted: function(){
-      this.sessions = this.movie.sessions.slice(0, 10);
+      this.sessions = this.movie.sessions
+      // .slice(0, 10);
     },
     filters: {
       sessionTimeFormatter: function(session){

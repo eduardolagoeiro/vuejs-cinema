@@ -7,7 +7,8 @@ new Vue({
   el: '#app',
   data: {
     genre: [],
-    time: []
+    time: [],
+    day: (new Date()).getDate()
   },
   methods: {
     checkFilterHandler(category, title, checked){
