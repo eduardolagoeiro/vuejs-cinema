@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="(filteredSessions()).length > 0">
     <div class="movie-col-left">
       <img v-bind:src="movie.poster"/>
     </div>
@@ -10,7 +10,7 @@
       </div>
       <div class="movie-sessions">
         <div
-          v-for="session in filterSessionByDay(day)"
+          v-for="session in filteredSessions()"
           v-bind:key="session"
           class="session-time-wrapper">
           <div
@@ -30,7 +30,7 @@
   export default {
     props: ['movie', 'day', 'time'],
     methods: {
-      filterSessionByDay(){
+      filteredSessions(){
         return this.movie.sessions
           .filter( session => {
             const date = new Date(session);
