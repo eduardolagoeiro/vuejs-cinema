@@ -62,9 +62,6 @@
               }
               result.push(movie);
             });
-            return result;
-          })
-          .then(result=>{
             this.movies=result;
           })
           .catch(err=>console.log(err));
