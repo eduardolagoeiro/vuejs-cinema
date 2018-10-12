@@ -10,7 +10,7 @@
         v-bind:time="time"/>
       </div>
     <div v-else-if="movies.length" class="no-results">
-      No results.
+      {{ noResults }}
     </div>
     <div v-else class="no-results">
       Loading...
@@ -77,6 +77,9 @@
         return this.movies
           .filter(this.moviePassesGenreFilter)
           .filter(this.moviePassesTimeFilter);
+      },
+      noResults: function(){
+        return 'No resulst for ' + this.genre.concat(this.time).join(', ') + ' on day '+ this.day;
       }
     },
     mounted() {
