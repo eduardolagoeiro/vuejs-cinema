@@ -1,5 +1,8 @@
 <template>
-  <div v-if="(filteredSessions()).length > 0">
+  <router-link
+    v-if="(filteredSessions()).length > 0"
+    v-bind:to="`movie/${movie.id}`"
+    >
     <div class="movie-col-left">
       <img v-bind:src="movie.poster"/>
     </div>
@@ -21,7 +24,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>
@@ -57,3 +60,9 @@
     }
   }
 </script>
+
+<style scoped>
+  a {
+    text-decoration: none
+  }
+</style>

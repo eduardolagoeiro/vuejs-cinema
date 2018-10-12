@@ -20,16 +20,10 @@
 
 <script>
   import genres from '../util/genres';
-  import { times, isBefore6p, isAfter6p } from '../util/times';
   import MovieItem from './MovieItem.vue';
 
   export default {
-    props:['genre','time','day'],
-    data(){
-      return {
-        movies: [],
-      }
-    },
+    props:['genre','time','day', 'movies'],
     components: {
       MovieItem,
     },
@@ -42,35 +36,6 @@
         return this.time.length == 0 ||
           !this.time.map(el=>movie.times.includes(el)).includes(false);
       },
-      getMovies(){
-        fetch('api')
-          .then(response => response.json())
-          .then(json=>{
-            const result = [];
-            json.map(el => {
-              let movie = {};
-              movie.id = el.id;
-              movie.genres = el.movie.Genre.split(',').map(string=>string.trim());
-              movie.sessions = el.sessions.map(session=>session.time);
-              const filteredSessionsByDay = movie.sessions.filter( el => (new Date(el).getDate() === this.day));
-              if(filteredSessionsByDay.length){
-                movie.title = el.movie.Title;
-                movie.poster = el.movie.Poster;
-                movie.rated = el.movie.Rated;
-                movie.times = [];
-                if(movie.sessions.find(isBefore6p)){
-                  movie.times.push(times.BEFORE_6PM);
-                }
-                if(movie.sessions.find(isAfter6p)){
-                  movie.times.push(times.AFTER_6PM);
-                }
-                result.push(movie);
-              }
-            });
-            this.movies=result;
-          })
-          .catch(err=>console.log(err));
-      }
     },
     computed: {
       filteredMovies: function(){
@@ -81,9 +46,6 @@
       noResults: function(){
         return 'No resulst for ' + this.genre.concat(this.time).join(', ') + ' on day '+ this.day;
       }
-    },
-    mounted() {
-      this.getMovies();
     },
   }
 </script>
