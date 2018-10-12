@@ -28,11 +28,6 @@
   import { times, isBefore6p, isAfter6p } from '../util/times';
 
   export default {
-    data(){
-      return {
-        sessions: [],
-      }
-    },
     props: ['movie', 'day', 'time'],
     methods: {
       filterSessionByDay(){
