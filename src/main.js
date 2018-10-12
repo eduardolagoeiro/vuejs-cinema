@@ -1,7 +1,6 @@
 import './style.scss';
 import Vue from 'vue';
-import MovieList from './components/MovieList.vue';
-import MovieFilter from './components/MovieFilter.vue';
+import Overview from './components/Overview.vue';
 
 const bus = new Vue();
 Object.defineProperty(Vue.prototype, '$bus', {get(){return this.$root.bus}});
@@ -17,8 +16,7 @@ new Vue({
     bus
   },
   components:{
-    MovieList,
-    MovieFilter,
+    Overview
   },
   created: function(){
     this.$bus.$on('check-filter', checkFilterHandler.bind(this));
