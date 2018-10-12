@@ -6,7 +6,8 @@
         class="movie" 
         v-bind:movie="movie"
         v-bind:key="movie.id"
-        v-bind:day="day"/>
+        v-bind:day="day"
+        v-bind:time="time"/>
       </div>
     <div v-else-if="movies.length" class="no-results">
       No results.

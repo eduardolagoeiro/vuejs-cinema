@@ -25,16 +25,33 @@
 </template>
 
 <script>
+  import { times, isBefore6p, isAfter6p } from '../util/times';
+
   export default {
     data(){
       return {
         sessions: [],
       }
     },
-    props: ['movie', 'day'],
+    props: ['movie', 'day', 'time'],
     methods: {
       filterSessionByDay(){
-        return this.movie.sessions.filter( el => (new Date(el).getDate() === this.day));
+        return this.movie.sessions
+          .filter( session => {
+            const date = new Date(session);
+            let isTime = true;
+            this.time.map(time => {
+              switch(time){
+                case times.BEFORE_6PM:
+                  isTime &= isBefore6p(session);
+                  break;
+                case times.AFTER_6PM:
+                  isTime &= isAfter6p(session);
+                  break;
+              }
+            });
+            return (date.getDate() === this.day) && isTime;
+          });
       }
     },
     filters: {
