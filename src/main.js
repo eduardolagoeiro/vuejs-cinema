@@ -15,13 +15,13 @@ new Vue({
     bus
   },
   methods: {
-    checkFilterHandler(category, title, checked){
-      if(checked){
-        this[category].push(title);
+    checkFilterHandler(payload){
+      if(payload.checked){
+        this[payload.category].push(payload.title);
       }else{
-        let index = this[category].indexOf(title);
+        let index = this[payload.category].indexOf(payload.title);
         if(index >= 0){
-          this[category].splice(index, 1);
+          this[payload.category].splice(index, 1);
         }
       }
     }
@@ -29,5 +29,8 @@ new Vue({
   components:{
     MovieList,
     MovieFilter,
+  },
+  created: function(){
+    this.$bus.$on('check-filter', this.checkFilterHandler);
   }
 });

@@ -5,7 +5,6 @@
     <div class="filter-group">
       <check-filter
         v-for="genre in genres"
-        v-on:check-filter="checkFilterHandler"
         v-bind:title="genre"
         category="genre"
         v-bind:key = "genre"/>
@@ -14,7 +13,6 @@
     <div class="filter-group">
       <check-filter
         v-for="time in times"
-        v-on:check-filter="checkFilterHandler"
         v-bind:title="time"
         category="time"
         v-bind:key="time"/>
@@ -33,11 +31,6 @@
         genres,
         times,
       };
-    },
-    methods: {
-      checkFilterHandler({category, title, checked}){
-        this.$emit('check-filter', category, title, checked);
-      }
     },
     components: {
       CheckFilter,
