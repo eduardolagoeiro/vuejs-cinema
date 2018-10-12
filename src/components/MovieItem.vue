@@ -10,7 +10,7 @@
       </div>
       <div class="movie-sessions">
         <div
-          v-for="session in sessions"
+          v-for="session in filterSessionByDay(day)"
           v-bind:key="session"
           class="session-time-wrapper">
           <div
@@ -28,16 +28,17 @@
   export default {
     data(){
       return {
-        sessions: []
+        sessions: [],
       }
     },
     props: ['movie', 'day'],
-    mounted: function(){
-      this.sessions = this.movie.sessions
-      // .slice(0, 10);
+    methods: {
+      filterSessionByDay(){
+        return this.movie.sessions.filter( el => (new Date(el).getDate() === this.day));
+      }
     },
     filters: {
-      sessionTimeFormatter: function(session){
+      sessionTimeFormatter(session){
         const date = new Date(session);
         return `${date.getUTCHours() == 0 ? '00' : date.getUTCHours()}:${date.getUTCMinutes() == 0 ? '00' : date.getUTCMinutes()}`;
       }

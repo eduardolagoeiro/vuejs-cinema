@@ -51,17 +51,20 @@
               movie.id = el.id;
               movie.genres = el.movie.Genre.split(',').map(string=>string.trim());
               movie.sessions = el.sessions.map(session=>session.time);
-              movie.title = el.movie.Title;
-              movie.poster = el.movie.Poster;
-              movie.rated = el.movie.Rated;
-              movie.times = [];
-              if(movie.sessions.find(isBefore6p)){
-                movie.times.push(times.BEFORE_6PM);
+              const filteredSessionsByDay = movie.sessions.filter( el => (new Date(el).getDate() === this.day));
+              if(filteredSessionsByDay.length){
+                movie.title = el.movie.Title;
+                movie.poster = el.movie.Poster;
+                movie.rated = el.movie.Rated;
+                movie.times = [];
+                if(movie.sessions.find(isBefore6p)){
+                  movie.times.push(times.BEFORE_6PM);
+                }
+                if(movie.sessions.find(isAfter6p)){
+                  movie.times.push(times.AFTER_6PM);
+                }
+                result.push(movie);
               }
-              if(movie.sessions.find(isAfter6p)){
-                movie.times.push(times.AFTER_6PM);
-              }
-              result.push(movie);
             });
             this.movies=result;
           })
