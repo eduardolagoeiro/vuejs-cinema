@@ -32,6 +32,7 @@ new Vue({
           json.map(el => {
             let movie = {
               id: el.id,
+              runtime: el.movie.Runtime,
               title: el.movie.Title,
               actors: el.movie.Actors,
               poster: el.movie.Poster,
