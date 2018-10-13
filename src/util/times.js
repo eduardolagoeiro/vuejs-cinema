@@ -3,14 +3,14 @@ export const times = Object.freeze({
   AFTER_6PM: 'After 6pm'
 });
 
-export function isBefore6p(time){
-  const date = new Date(time);
+export function isBefore6p(session){
+  const date = new Date(session.time);
   const hour = date.getUTCHours();
   return hour < 18;
 }
 
-export function isAfter6p(time){
-  const date = new Date(time);
+export function isAfter6p(session){
+  const date = new Date(session.time);
   const hour = date.getUTCHours();
   return hour >= 18;
 }

@@ -10,16 +10,17 @@
         v-bind:day="day"
         v-bind:time="time">
         <div class="movie-sessions">
-        <div
-          v-for="session in filteredSessions(movie)"
-          v-bind:key="session"
-          class="session-time-wrapper">
           <div
-            class="session-time">
-            {{session | sessionTimeFormatter}}
+            v-for="session in filteredSessions(movie)"
+            v-bind:key="session"
+            class="session-time-wrapper tooltip-wrapper"
+            v-tooltip="{seats:session.seats}">
+            <div
+              class="session-time">
+              {{session.time | sessionTimeFormatter}}
+            </div>
           </div>
         </div>
-      </div>
       </MovieItem>
     </div>
     <div v-else-if="movies.length" class="no-results">
@@ -53,7 +54,7 @@
       filteredSessions(movie){
         return movie.sessions
           .filter( session => {
-            const date = new Date(session);
+            const date = new Date(session.time);
             let isTime = true;
             this.time.map(time => {
               switch(time){

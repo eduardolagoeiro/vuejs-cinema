@@ -5,6 +5,8 @@ const bus = new Vue();
 Object.defineProperty(Vue.prototype, '$bus', {get(){return this.$root.bus}});
 
 import {checkFilterHandler} from './util/bus';
+import Tooltip from './util/Tooltip';
+Vue.use(Tooltip);
 
 import VueRouter from 'vue-router';
 Vue.use(VueRouter)
@@ -44,9 +46,14 @@ new Vue({
               plot: el.movie.Plot,
               released: el.movie.Released,
               genres: el.movie.Genre.split(',').map(string=>string.trim()),
-              sessions: el.sessions.map(session=>session.time),
+              sessions: el.sessions.map(session=> {
+                return { 
+                  time: session.time,
+                  seats: session.seats 
+                }
+              }),
             };
-            const filteredSessionsByDay = movie.sessions.filter( el => (new Date(el).getDate() === this.day));
+            const filteredSessionsByDay = movie.sessions.filter( el => (new Date(el.time).getDate() === this.day));
             if(filteredSessionsByDay.length){
               if(movie.sessions.find(isBefore6p)){
                 movie.times.push(times.BEFORE_6PM);
