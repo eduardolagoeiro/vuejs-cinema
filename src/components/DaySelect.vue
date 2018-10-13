@@ -3,10 +3,14 @@
         <ul class="days">
             <li 
                 v-bind:class="{ active : isActive(day) }"
-                v-on:click="changeDayEvent(day)"
+                v-on:click="changeDayEvent(day, 0)"
                 v-for="day in days" v-bind:key="day"
                 class="day">
                 {{day | formatDate}}
+            </li>
+            <li class="day-selector">
+                <span class="dec" v-on:click="changeDayEvent(selected,-1)"></span>
+                <span class="inc" v-on:click="changeDayEvent(selected,+1)"></span>
             </li>
         </ul>
     </div>
@@ -32,9 +36,11 @@
             isActive(day){
                 return day.date() == this.selected;
             },
-            changeDayEvent(day){
+            changeDayEvent(day, inc){
+                if(inc == -1 && (this.days[0]).date() == day)return;
+                if(inc == 1 && (this.days[6]).date() == day)return;
                 this.$bus.$emit('change-day', {
-                    day: day.date()
+                    day: (day.date ? day.date() : day )+inc
                 })
             }
         }
