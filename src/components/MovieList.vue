@@ -17,7 +17,6 @@
           <div
             class="session-time">
             {{session | sessionTimeFormatter}}
-            {{(new Date(session)).getDate()}}
           </div>
         </div>
       </div>

@@ -20,7 +20,7 @@ new Vue({
     movies: [],
     genre: [],
     time: [],
-    day: (new Date()).getDate()+1,
+    day: (new Date()).getDate(),
     bus
   },
   methods:{
@@ -65,6 +65,9 @@ new Vue({
   created: function(){
     this.getMovies();
     this.$bus.$on('check-filter', checkFilterHandler.bind(this));
+    this.$bus.$on('change-day', (payload)=>{
+      this.day = payload.day;
+    });
   },
   router,
 });

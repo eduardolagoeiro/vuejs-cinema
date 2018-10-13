@@ -1,6 +1,6 @@
 <template>
     <div id="overview">
-        <DaySelect/>
+        <DaySelect v-bind:selected="day"/>
         <div class="main">
             <movie-list v-bind:genre="genre" v-bind:time="time" v-bind:day="day" v-bind:movies="movies"></movie-list>
             <movie-filter v-bind:time="time" v-bind:genre="genre" />

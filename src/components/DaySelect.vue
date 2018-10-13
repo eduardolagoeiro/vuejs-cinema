@@ -3,7 +3,7 @@
         <ul class="days">
             <li 
                 v-bind:class="{ active : isActive(day) }"
-                v-on:click="selected = day"
+                v-on:click="changeDayEvent(day)"
                 v-for="day in days" v-bind:key="day"
                 class="day">
                 {{day | formatDate}}
@@ -16,9 +16,9 @@
     const moment = require('moment-timezone');
 
     export default{
+        props: [ 'selected' ],
         data(){
             return {
-                selected: moment(),
                 days: [0, 1, 2, 3, 4, 5, 6].map(num=>moment().add(num, 'days')),
             }
         },
@@ -30,7 +30,12 @@
         },
         methods:{
             isActive(day){
-                return day.isSame(this.selected, 'day');
+                return day.date() == this.selected;
+            },
+            changeDayEvent(day){
+                this.$bus.$emit('change-day', {
+                    day: day.date()
+                })
             }
         }
     }
