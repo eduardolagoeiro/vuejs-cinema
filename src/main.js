@@ -20,7 +20,7 @@ new Vue({
     movies: [],
     genre: [],
     time: [],
-    day: (new Date()).getDate(),
+    day: (new Date()).getDate()+1,
     bus
   },
   methods:{
