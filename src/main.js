@@ -40,6 +40,9 @@ new Vue({
               movie.poster = el.movie.Poster;
               movie.rated = el.movie.Rated;
               movie.times = [];
+              movie.genre = el.movie.Genre;
+              movie.plot = el.movie.Plot;
+              movie.released = el.movie.Released;
               if(movie.sessions.find(isBefore6p)){
                 movie.times.push(times.BEFORE_6PM);
               }

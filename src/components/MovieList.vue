@@ -7,8 +7,21 @@
         v-bind:movie="movie"
         v-bind:key="movie.id"
         v-bind:day="day"
-        v-bind:time="time"/>
+        v-bind:time="time">
+        <div class="movie-sessions">
+        <div
+          v-for="session in filteredSessions(movie)"
+          v-bind:key="session"
+          class="session-time-wrapper">
+          <div
+            class="session-time">
+            {{session | sessionTimeFormatter}}
+            {{(new Date(session)).getDate()}}
+          </div>
+        </div>
       </div>
+      </MovieItem>
+    </div>
     <div v-else-if="movies.length" class="no-results">
       {{ noResults }}
     </div>
@@ -21,6 +34,7 @@
 <script>
   import genres from '../util/genres';
   import MovieItem from './MovieItem.vue';
+  import { times, isBefore6p, isAfter6p } from '../util/times';
 
   export default {
     props:['genre','time','day', 'movies'],
@@ -36,6 +50,24 @@
         return this.time.length == 0 ||
           !this.time.map(el=>movie.times.includes(el)).includes(false);
       },
+      filteredSessions(movie){
+        return movie.sessions
+          .filter( session => {
+            const date = new Date(session);
+            let isTime = true;
+            this.time.map(time => {
+              switch(time){
+                case times.BEFORE_6PM:
+                  isTime &= isBefore6p(session);
+                  break;
+                case times.AFTER_6PM:
+                  isTime &= isAfter6p(session);
+                  break;
+              }
+            });
+            return (date.getDate() === this.day) && isTime;
+          });
+      }
     },
     computed: {
       filteredMovies: function(){
@@ -47,9 +79,17 @@
         return 'No resulst for ' + this.genre.concat(this.time).join(', ') + ' on day '+ this.day;
       }
     },
+    filters: {
+      sessionTimeFormatter(session){
+        const date = new Date(session);
+        return `${date.getUTCHours() == 0 ? '00' : date.getUTCHours()}:${date.getUTCMinutes() == 0 ? '00' : date.getUTCMinutes()}`;
+      }
+    }
   }
 </script>
 
-<style>
-  
+<style scoped>
+  a {
+    text-decoration: none
+  }
 </style>

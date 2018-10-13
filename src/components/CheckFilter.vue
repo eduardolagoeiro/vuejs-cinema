@@ -11,12 +11,7 @@
 
 <script>
   export default {
-    data(){
-      return {
-        checked: false,
-      }
-    },
-    props:['title','category'],
+    props:['title','category','checked'],
     methods: {
       checkFilter(){
         this.checked = !this.checked;
