@@ -11,6 +11,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "nodemon ./server.js --ignore src/ -e js,html,css",
+    "heroku-postbuild": "npm run build && echo building",
     "build": "rimraf dist && cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "engines": {
