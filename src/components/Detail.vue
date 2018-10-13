@@ -15,6 +15,18 @@
                         <td>Released date:</td>
                         <td>{{movie.released}}</td>
                     </tr>
+                    <tr>
+                        <td>Running time:</td>
+                        <td>{{movie.runtime}}</td>
+                    </tr>
+                    <tr>
+                        <td>Director:</td>
+                        <td>{{movie.director}}</td>
+                    </tr>
+                    <tr>
+                        <td>Cast:</td>
+                        <td>{{movie.actors}}</td>
+                    </tr>
                 </table>
             </div>
         </MovieItem>

@@ -30,19 +30,23 @@ new Vue({
         .then(json=>{
           const result = [];
           json.map(el => {
-            let movie = {};
-            movie.id = el.id;
-            movie.genres = el.movie.Genre.split(',').map(string=>string.trim());
-            movie.sessions = el.sessions.map(session=>session.time);
+            let movie = {
+              id: el.id,
+              title: el.movie.Title,
+              actors: el.movie.Actors,
+              poster: el.movie.Poster,
+              rated: el.movie.Rated,
+              actors: el.movie.Actors,
+              director: el.movie.Director,
+              times: [],
+              genre: el.movie.Genre,
+              plot: el.movie.Plot,
+              released: el.movie.Released,
+              genres: el.movie.Genre.split(',').map(string=>string.trim()),
+              sessions: el.sessions.map(session=>session.time),
+            };
             const filteredSessionsByDay = movie.sessions.filter( el => (new Date(el).getDate() === this.day));
             if(filteredSessionsByDay.length){
-              movie.title = el.movie.Title;
-              movie.poster = el.movie.Poster;
-              movie.rated = el.movie.Rated;
-              movie.times = [];
-              movie.genre = el.movie.Genre;
-              movie.plot = el.movie.Plot;
-              movie.released = el.movie.Released;
               if(movie.sessions.find(isBefore6p)){
                 movie.times.push(times.BEFORE_6PM);
               }
