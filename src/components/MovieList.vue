@@ -2,6 +2,7 @@
   <div id="movie-list">
     <div v-if="filteredMovies.length">
       <MovieItem
+        v-if="filteredSessions(movie).length"
         v-for="movie in filteredMovies"
         class="movie" 
         v-bind:movie="movie"
