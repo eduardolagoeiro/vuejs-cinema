@@ -14,11 +14,10 @@
     props:['title','category','checked'],
     methods: {
       checkFilter(){
-        this.checked = !this.checked;
         this.$bus.$emit('check-filter', {
           category: this.category,
           title: this.title,
-          checked: this.checked
+          checked: !this.checked
         });
       }
     }
